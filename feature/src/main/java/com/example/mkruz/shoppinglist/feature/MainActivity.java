@@ -1,6 +1,5 @@
 package com.example.mkruz.shoppinglist.feature;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,19 +22,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        try {
-            db = new TodoDbAdapter(getApplicationContext());
-            db.open();
-            ListView lvItems = (ListView) findViewById(R.id.dbItem);
-            TodoCursorAdapter todoAdapter = new TodoCursorAdapter(this, db.getAllTodos());
-            lvItems.setAdapter(todoAdapter);
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -64,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+            db = new TodoDbAdapter(getApplicationContext());
+            db.open();
+            ListView lvItems = findViewById(R.id.listView1);
+            TodoCursorAdapter todoAdapter = new TodoCursorAdapter(this, db.getAllTodos());
+            lvItems.setAdapter(todoAdapter);
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void addList(View view) {
