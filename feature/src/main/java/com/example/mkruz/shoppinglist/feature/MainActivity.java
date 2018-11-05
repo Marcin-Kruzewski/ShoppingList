@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     TodoDbAdapter db;
+    ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
             getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -60,9 +62,18 @@ public class MainActivity extends AppCompatActivity {
         try {
             db = new TodoDbAdapter(getApplicationContext());
             db.open();
-            ListView lvItems = findViewById(R.id.listView1);
+            lvItems = findViewById(R.id.listView1);
             TodoCursorAdapter todoAdapter = new TodoCursorAdapter(this, db.getAllTodos());
             lvItems.setAdapter(todoAdapter);
+            lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent1 = new Intent(MainActivity.this, ListActivity.class);
+                    intent1.putExtra("id", id);
+                    startActivity(intent1);
+                }
+            });
         }catch(Exception e){
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         }

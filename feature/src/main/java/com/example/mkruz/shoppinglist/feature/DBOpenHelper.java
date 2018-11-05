@@ -11,9 +11,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     "item" + " TEXT, " +
-                    "price" + " TEXT, " +
-                    "mark" + " TEXT, " +
-                    "qty" + " TEXT);";
+                    "price" + " DECIMAL, " +
+                    "completed" + " INTEGER, " +
+                    "qty" + " INTEGER);";
     DBOpenHelper(Context context) {
         super(context, "base.db", null, DATABASE_VERSION);
     }

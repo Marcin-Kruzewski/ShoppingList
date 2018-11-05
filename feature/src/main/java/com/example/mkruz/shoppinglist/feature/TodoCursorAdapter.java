@@ -21,7 +21,10 @@ public class TodoCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView tvBody = view.findViewById(R.id.tvItem);
-        String body = cursor.getString(cursor.getColumnIndexOrThrow(TodoDbAdapter.KEY_DESCRIPTION));
+        //String id = String.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow(TodoDbAdapter.KEY_ID)));
+        String qty = String.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow(TodoDbAdapter.KEY_QTY)));
+        //String price = String.valueOf(cursor.getFloat(cursor.getColumnIndexOrThrow(TodoDbAdapter.KEY_PRICE)));
+        String body =  qty + " " + cursor.getString(cursor.getColumnIndexOrThrow(TodoDbAdapter.KEY_DESCRIPTION));
         tvBody.setText(body);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.mkruz.shoppinglist.feature;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -18,13 +20,17 @@ import android.widget.Toast;
 
 public class ListActivity extends AppCompatActivity {
 
+    long id;
     EditText item, qty, price;
     String itemValue = "";
     String qtyValue = "";
     String priceValue = "";
     TodoDbAdapter db;
+    TodoTask editedItem;
     private final int MEMORY_ACCESS = 5;
+    private final long NON_EXISTING_ID = -1;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(ActivityCompat.shouldShowRequestPermissionRationale(ListActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){}
@@ -39,17 +45,26 @@ public class ListActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         item = (EditText) findViewById(R.id.item);
-        item.setText(itemValue);
         qty = (EditText) findViewById(R.id.qty);
-        qty.setText(qtyValue);
         price = (EditText) findViewById(R.id.price);
-        price.setText(priceValue);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
+        id = getIntent().getLongExtra("id", NON_EXISTING_ID);
+        if (id != NON_EXISTING_ID && editedItem == null){
+            editedItem = db.getTodo(id);
+            //Toast.makeText(getApplicationContext(), editedItem.toString(), Toast.LENGTH_LONG).show();
+            item.setText(editedItem.getDescription());
+            qty.setText(String.valueOf(editedItem.getQty()));
+            price.setText(String.valueOf(editedItem.getPrice()));
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton1);
+            fab.setVisibility(View.VISIBLE);
+        }else{
+            item.setText(itemValue);
+            qty.setText(qtyValue);
+            price.setText(priceValue);
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -80,30 +95,28 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void onSaveBtn(View view) {
-        try {
-            long id;
-            itemValue = item.getText().toString();
-            qtyValue = qty.getText().toString();
-            priceValue = price.getText().toString();
-            if (!itemValue.equals("")) {
-                if (qtyValue.equals("")) {
-                    qtyValue = "1";
-                }
-                if (priceValue.equals("")) {
-                    priceValue = "";
-                }
-                id = db.insertTodo(itemValue);
-                TodoTask fromdb = db.getTodo(id);
-                db.close();
-                Toast.makeText(getApplicationContext(), fromdb.getDescription()+" added!", Toast.LENGTH_LONG).show();
-                finish();
-
-            }else{
-                Snackbar.make(view, "Invalid data!", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+        itemValue = item.getText().toString();
+        qtyValue = qty.getText().toString();
+        priceValue = price.getText().toString();
+        if (!itemValue.equals("")) {
+            if (qtyValue.equals("")) {
+                qtyValue = "1";
             }
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            if (priceValue.equals("")) {
+                priceValue = "0";
+            }
+            int qtyInt = Integer.parseInt(qtyValue);
+            float priceFloat = Float.parseFloat(priceValue);
+            if (id == NON_EXISTING_ID){
+                db.insertTodo(itemValue, qtyInt, priceFloat);
+                finish();
+            }else{
+                db.updateTodo(id, itemValue, qtyInt, priceFloat, false);
+                finish();
+            }
+        }else{
+            Snackbar.make(view, "Invalid data!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
         }
     }
 
@@ -111,5 +124,10 @@ public class ListActivity extends AppCompatActivity {
     protected void onDestroy() {
         db.close();
         super.onDestroy();
+    }
+
+    public void onDeleteButton(View view){
+        db.deleteTodo(id);
+        finish();
     }
 }
