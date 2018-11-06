@@ -5,7 +5,7 @@
     <application>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/list"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -15,7 +15,7 @@
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="@string/title_activity_list"
+            android:label="@string/item_title"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -23,10 +23,9 @@
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
         </activity>
         <activity
-            android:name=".OptionsActivity"
-            android:label="@string/title_activity_options"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
