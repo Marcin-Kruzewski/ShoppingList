@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mkruz.shoppinglist.feature">
-
+    <permission android:name="pl.edu.pja.smb.MY_PERMISSION" android:protectionLevel="normal" />
     <application>
         <activity
             android:name=".MainActivity"
@@ -18,6 +18,7 @@
             android:label="@string/item_title"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
@@ -30,6 +31,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
         </activity>
+        <provider android:name="com.example.mkruz.shoppinglist.feature.DataProvider"
+            android:authorities="com.example.mkruz.shoppinglist.feature.DataProvider"
+            android:multiprocess="true"
+            android:exported="true" />
     </application>
 
 </manifest>

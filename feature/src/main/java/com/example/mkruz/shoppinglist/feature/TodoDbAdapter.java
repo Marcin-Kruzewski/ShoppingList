@@ -128,6 +128,12 @@ public class TodoDbAdapter {
         return db.query(DB_TODO_TABLE, columns, null, null, null, null, null);
     }
 
+    public Cursor getTodoTaskCursor(String id) {
+        String[] columns = {KEY_ID, KEY_DESCRIPTION, KEY_QTY, KEY_PRICE, KEY_COMPLETED};
+        String where = KEY_ID + "=" + id;
+        return  db.query(DB_TODO_TABLE, columns, where, null, null, null, null);
+    }
+
     public TodoTask getTodo(long id) {
         String[] columns = {KEY_ID, KEY_DESCRIPTION, KEY_QTY, KEY_PRICE, KEY_COMPLETED};
         String where = KEY_ID + "=" + id;

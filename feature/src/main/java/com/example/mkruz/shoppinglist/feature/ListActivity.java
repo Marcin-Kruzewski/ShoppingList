@@ -108,7 +108,11 @@ public class ListActivity extends AppCompatActivity {
             int qtyInt = Integer.parseInt(qtyValue);
             float priceFloat = Float.parseFloat(priceValue);
             if (id == NON_EXISTING_ID){
-                db.insertTodo(itemValue, qtyInt, priceFloat);
+                id = db.insertTodo(itemValue, qtyInt, priceFloat);
+                Intent intent1 = new Intent();
+                intent1.setAction("pl.edu.pja.smb.MY_BROADCAST_TEST");
+                intent1.putExtra("id", id);
+                sendBroadcast(intent1, "pl.edu.pja.smb.MY_PERMISSION");
                 finish();
             }else{
                 db.updateTodo(id, itemValue, qtyInt, priceFloat, false);
