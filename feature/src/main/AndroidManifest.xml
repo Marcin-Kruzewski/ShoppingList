@@ -31,10 +31,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
         </activity>
-        <provider android:name="com.example.mkruz.shoppinglist.feature.DataProvider"
-            android:authorities="com.example.mkruz.shoppinglist.feature.DataProvider"
+        <provider android:name=".DataProvider"
+            android:authorities="com.example.mkruz.shoppinglist.feature.dataprovider.provider"
             android:multiprocess="true"
             android:exported="true" />
     </application>
 
+    <!--android:readPermission="com.example.mkruz.shoppinglist.feature.DataProvider.PERMISSION"
+    android:writePermission="com.example.mkruz.shoppinglist.feature.DataProvider.PERMISSION"-->
 </manifest>

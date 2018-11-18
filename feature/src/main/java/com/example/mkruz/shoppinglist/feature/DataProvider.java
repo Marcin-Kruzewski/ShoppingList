@@ -28,6 +28,7 @@ public class DataProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        Log.i("Provider", "creating");
         try {
             db = new TodoDbAdapter(getContext());
             db.open();
