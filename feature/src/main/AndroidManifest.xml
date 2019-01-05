@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mkruz.shoppinglist.feature">
-    <permission android:name="pl.edu.pja.smb.MY_PERMISSION" android:protectionLevel="normal" />
+
+    <permission
+        android:name="pl.edu.pja.smb.MY_PERMISSION"
+        android:protectionLevel="normal" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    22
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--
+    android:readPermission="com.example.mkruz.shoppinglist.feature.DataProvider.PERMISSION"
+    android:writePermission="com.example.mkruz.shoppinglist.feature.DataProvider.PERMISSION"
+    -->
     <application>
         <activity
             android:name=".MainActivity"
@@ -18,7 +37,6 @@
             android:label="@string/item_title"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
@@ -31,12 +49,35 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mkruz.shoppinglist.feature.MainActivity" />
         </activity>
-        <provider android:name=".DataProvider"
+
+        <provider
+            android:name=".DataProvider"
             android:authorities="com.example.mkruz.shoppinglist.feature.dataprovider.provider"
-            android:multiprocess="true"
-            android:exported="true" />
+            android:exported="true"
+            android:multiprocess="true" />
+
+        <activity android:name=".ShopListActivity" />
+        <activity android:name=".EditShopActivity" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_activity_map" />
+
+        <receiver
+            android:name=".MyProximityReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
-    <!--android:readPermission="com.example.mkruz.shoppinglist.feature.DataProvider.PERMISSION"
-    android:writePermission="com.example.mkruz.shoppinglist.feature.DataProvider.PERMISSION"-->
 </manifest>
